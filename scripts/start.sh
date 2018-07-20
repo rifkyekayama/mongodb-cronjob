@@ -12,7 +12,7 @@ if [[ "$RUN_SCRIPTS" == "1" ]] ; then
   fi
 fi
 
-if [[ "$SET_CRONJOB" == "1" ] && [ ! -z "$SCRIPT_FILENAME" ] && [ ! -z "$CRON_TIME_SETTING"]]; then
+if [[ "$SET_CRONJOB" == "1" ] && [ ! -z "$SCRIPT_FILENAME" ] && [ ! -z "$CRON_TIME_SETTING" ]]; then
     chmod -Rf 750 /scripts/*; sync;
 
     crontab -l | { cat; echo "${CRON_TIME_SETTING} bash /script/${SCRIPT_FILENAME} >> /dev/null 2>&1"; } | crontab -

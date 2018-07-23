@@ -21,8 +21,8 @@ RUN mkdir -p /var/log/cron \
 
 COPY /scripts/* /
 
-RUN mkdir -p /scripts
-RUN mkdir -p /backups
+# RUN mkdir -p /scripts
+# RUN mkdir -p /backups
 
 ENTRYPOINT ["/docker-entry.sh"]
 CMD ["/docker-cmd.sh"]

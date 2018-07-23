@@ -1,16 +1,28 @@
-FROM mongo:4.0.0-xenial
+FROM alpine:edge
 
-RUN apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install \
-      cron \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
+LABEL maintainer="Rifky Ekayama <rifky.ekayama@gmail.com>"
+ 
+RUN apk update \
+  && apk add \
+         dcron \
+         bash \
+         curl \
+         wget \
+         rsync \
+         ca-certificates \
+         zip \
+         mongodb-tools \
+  && rm -rf /var/cache/apk/*
+
+RUN mkdir -p /var/log/cron \
+  && mkdir -m 0644 -p /var/spool/cron/crontabs \
+  && touch /var/log/cron/cron.log \
+  && mkdir -m 0644 -p /etc/cron.d
+
+COPY /scripts/* /
 
 RUN mkdir -p /scripts
-RUN mkdir -p /backup
+RUN mkdir -p /backups
 
-# Add Scripts
-ADD scripts/start.sh /start.sh
-RUN chmod 755 /start.sh
-
-CMD ["/start.sh"]
+ENTRYPOINT ["/docker-entry.sh"]
+CMD ["/docker-cmd.sh"]
